@@ -13,3 +13,5 @@ extern u8 koi_last_err_code;
 typedef struct String String;
 
 String* koi_new_string(const char*);
+
+void koi_delete_string(String*);

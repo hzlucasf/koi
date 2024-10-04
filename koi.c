@@ -14,6 +14,18 @@ typedef struct String
 #elif defined(__x86_64__)
     u64 length;
 #endif
+
+#if defined(__i386__)
+    u32 extra_characters;
+#elif defined(__x86_64__)
+    u64 extra_characters;
+#endif
+
+#if defined(__i386__)
+    u32 size;
+#elif defined(__x86_64__)
+    u64 size;
+#endif
 } String;
 
 String* koi_new_string(const char* str)
@@ -48,6 +60,27 @@ String* koi_new_string(const char* str)
     }
 
     s->length = strlen(str);
+
+#if defined(__i386__)
+    s->extra_characters = 4;
+#elif defined(__x86_64__)
+    s->extra_characters = 8;
+#endif
+
+    void* p = realloc(s->str, s->length + 1 + s->extra_characters);
+
+    if (p == NULL)
+    {
+        koi_last_err_code = KOI_MEM_ALLOC_ERR;
+
+        free(s->str);
+
+        free(s);
+
+        return NULL;
+    }
+
+    s->size = s->length + 1 + s->extra_characters;
 
     return s;
 }

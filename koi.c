@@ -82,6 +82,8 @@ String* koi_new_string(const char* str)
 
     s->size = s->length + 1 + s->extra_characters;
 
+    s->extra_characters *= 2;
+
     return s;
 }
 

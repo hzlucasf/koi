@@ -41,3 +41,5 @@ u64 koi_index_of(String*, char);
 bool koi_contains(String*, char);
 
 void koi_to_upper(String*);
+
+void koi_to_lower(String*);

@@ -13,6 +13,7 @@ typedef uint64_t u64;
 #define KOI_NO_ERR           0
 #define KOI_INVALID_ARGS_ERR 1
 #define KOI_MEM_ALLOC_ERR    2
+#define KOI_NOT_FOUND_ERR    3
 
 extern u8 koi_last_err_code;
 
@@ -28,4 +29,10 @@ const char* koi_get_str(String*);
 u32 koi_get_length(String*);
 #elif defined(__x86_64__)
 u64 koi_get_length(String*);
+#endif
+
+#if defined(__i386__)
+u32 koi_index_of(String*, char);
+#elif defined(__x86_64__)
+u64 koi_index_of(String*, char);
 #endif

@@ -111,3 +111,53 @@ u64 koi_get_length(String* s)
     return s->length;
 }
 #endif
+
+#if defined(__i386__)
+u32 koi_index_of(String* s, char c)
+{
+    koi_last_err_code = KOI_NO_ERR;
+
+    if (s == NULL)
+    {
+        koi_last_err_code = KOI_INVALID_ARGS_ERR;
+
+        return 0;
+    }
+
+    for (u32 i = 0; i < s->length; i += 1)
+    {
+        if (s->str[i] == c)
+        {
+            return i;
+        }
+    }
+
+    koi_last_err_code = KOI_NOT_FOUND_ERR;
+
+    return 0;
+}
+#elif defined(__x86_64__)
+u64 koi_index_of(String* s, char c)
+{
+    koi_last_err_code = KOI_NO_ERR;
+
+    if (s == NULL)
+    {
+        koi_last_err_code = KOI_INVALID_ARGS_ERR;
+
+        return 0;
+    }
+
+    for (u64 i = 0; i < s->length; i += 1)
+    {
+        if (s->str[i] == c)
+        {
+            return i;
+        }
+    }
+
+    koi_last_err_code = KOI_NOT_FOUND_ERR;
+
+    return 0;
+}
+#endif

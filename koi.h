@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <stdbool.h>
 
 typedef uint8_t u8;
 
@@ -36,3 +37,5 @@ u32 koi_index_of(String*, char);
 #elif defined(__x86_64__)
 u64 koi_index_of(String*, char);
 #endif
+
+bool koi_contains(String*, char);

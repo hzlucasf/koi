@@ -22,6 +22,8 @@ String* koi_new_string(const char*);
 
 void koi_delete_string(String*);
 
+const char* koi_get_str(String*);
+
 #if defined(__i386__)
 u32 koi_get_length(String*);
 #elif defined(__x86_64__)

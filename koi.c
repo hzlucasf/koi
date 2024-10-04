@@ -68,6 +68,20 @@ void koi_delete_string(String* s)
     free(s);
 }
 
+const char* koi_get_str(String* s)
+{
+    koi_last_err_code = KOI_NO_ERR;
+
+    if (s == NULL)
+    {
+        koi_last_err_code = KOI_INVALID_ARGS_ERR;
+
+        return NULL;
+    }
+
+    return s->str;
+}
+
 #if defined(__i386__)
 u32 koi_get_length(String* s)
 {

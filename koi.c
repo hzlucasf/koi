@@ -189,3 +189,29 @@ bool koi_contains(String* s, char c)
 
     return false;
 }
+
+void koi_to_upper(String* s)
+{
+    koi_last_err_code = KOI_NO_ERR;
+
+    if (s == NULL)
+    {
+        koi_last_err_code = KOI_INVALID_ARGS_ERR;
+
+        return;
+    }
+
+#if defined(__i386__)
+    u32 i = 0;
+#elif defined(__x86_64__)
+    u64 i = 0;
+#endif
+
+    for (; i < s->length; i += 1)
+    {
+        if (s->str[i] >= 'a' && s->str[i] < 'z')
+        {
+            s->str[i] -= 32;
+        }
+    }
+}

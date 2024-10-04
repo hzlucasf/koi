@@ -8,6 +8,12 @@ u8 koi_last_err_code = KOI_NO_ERR;
 typedef struct String
 {
     char* str;
+
+#if defined(__i386__)
+    u32 length;
+#elif defined(__x86_64__)
+    u64 length;
+#endif
 } String;
 
 String* koi_new_string(const char* str)
@@ -41,6 +47,8 @@ String* koi_new_string(const char* str)
         return NULL;
     }
 
+    s->length = strlen(str);
+
     return s;
 }
 
@@ -59,3 +67,33 @@ void koi_delete_string(String* s)
 
     free(s);
 }
+
+#if defined(__i386__)
+u32 koi_get_length(String* s)
+{
+    koi_last_err_code = KOI_NO_ERR;
+
+    if (s == NULL)
+    {
+        koi_last_err_code = KOI_INVALID_ARGS_ERR;
+
+        return 0;
+    }
+
+    return s->length;
+}
+#elif defined(__x86_64__)
+u64 koi_get_length(String* s)
+{
+    koi_last_err_code = KOI_NO_ERR;
+
+    if (s == NULL)
+    {
+        koi_last_err_code = KOI_INVALID_ARGS_ERR;
+
+        return 0;
+    }
+
+    return s->length;
+}
+#endif

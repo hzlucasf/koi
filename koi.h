@@ -49,3 +49,9 @@ typedef struct StringList StringList;
 StringList* koi_new_string_list(void);
 
 void koi_delete_string_list(StringList*);
+
+#if defined(__i386__)
+u32 koi_get_list_length(StringList*);
+#elif defined(__x86_64__)
+u64 koi_get_list_length(StringList*);
+#endif

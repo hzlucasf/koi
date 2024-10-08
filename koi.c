@@ -351,3 +351,33 @@ void koi_delete_string_list(StringList* l)
 
     free(l);
 }
+
+#if defined(__i386__)
+u32 koi_get_list_length(StringList* l)
+{
+    koi_last_err_code = KOI_NO_ERR;
+
+    if (l == NULL)
+    {
+        koi_last_err_code = KOI_INVALID_ARGS_ERR;
+
+        return 0;
+    }
+
+    return l->arr_length;
+}
+#elif defined(__x86_64__)
+u64 koi_get_list_length(StringList* l)
+{
+    koi_last_err_code = KOI_NO_ERR;
+
+    if (l == NULL)
+    {
+        koi_last_err_code = KOI_INVALID_ARGS_ERR;
+
+        return 0;
+    }
+
+    return l->arr_length;
+}
+#endif

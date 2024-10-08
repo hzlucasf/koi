@@ -276,3 +276,51 @@ void koi_to_lower(String* s)
         }
     }
 }
+
+typedef struct StringList
+{
+    String* arr;
+
+#if defined(__i386__)
+    u32 arr_length;
+#elif defined(__x86_64__)
+    u64 arr_length;
+#endif
+
+#if defined(__i386__)
+    u32 size;
+#elif defined(__x86_64__)
+    u64 size;
+#endif
+} StringList;
+
+StringList* koi_new_string_list(void)
+{
+    koi_last_err_code = KOI_NO_ERR;
+
+    StringList* l = malloc(sizeof(StringList));
+
+    if (l == NULL)
+    {
+        koi_last_err_code = KOI_MEM_ALLOC_ERR;
+
+        return NULL;
+    }
+
+    l->arr = malloc(sizeof(String) * 10);
+
+    if (l->arr == NULL)
+    {
+        koi_last_err_code = KOI_MEM_ALLOC_ERR;
+
+        free(l);
+
+        return NULL;
+    }
+
+    l->arr_length = 0;
+
+    l->size = 10;
+
+    return l;
+}

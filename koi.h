@@ -43,3 +43,7 @@ bool koi_contains(String*, char);
 void koi_to_upper(String*);
 
 void koi_to_lower(String*);
+
+typedef struct StringList StringList;
+
+StringList* koi_new_string_list(void);

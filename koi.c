@@ -324,3 +324,30 @@ StringList* koi_new_string_list(void)
 
     return l;
 }
+
+void koi_delete_string_list(StringList* l)
+{
+    koi_last_err_code = KOI_NO_ERR;
+
+    if (l == NULL)
+    {
+        koi_last_err_code = KOI_INVALID_ARGS_ERR;
+
+        return;
+    }
+
+#if defined(__i386__)
+    u32 i = 0;
+#elif defined(__x86_64__)
+    u64 i = 0;
+#endif
+
+    for (; i < l->arr_length; i += 1)
+    {
+        free(l->arr[i].str);
+    }
+
+    free(l->arr);
+
+    free(l);
+}

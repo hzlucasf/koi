@@ -47,3 +47,5 @@ void koi_to_lower(String*);
 typedef struct StringList StringList;
 
 StringList* koi_new_string_list(void);
+
+void koi_delete_string_list(StringList*);

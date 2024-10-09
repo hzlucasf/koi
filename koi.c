@@ -141,6 +141,36 @@ u64 koi_get_length(String* s)
 }
 #endif
 
+#if defined(__i386__)
+u32 koi_get_size(String* s)
+{
+    koi_last_err_code = KOI_NO_ERR;
+
+    if (s == NULL)
+    {
+        koi_last_err_code = KOI_INVALID_ARGS_ERR;
+
+        return 0;
+    }
+
+    return s->size;
+}
+#elif defined(__x86_64__)
+u64 koi_get_size(String* s)
+{
+    koi_last_err_code = KOI_NO_ERR;
+
+    if (s == NULL)
+    {
+        koi_last_err_code = KOI_INVALID_ARGS_ERR;
+
+        return 0;
+    }
+
+    return s->size;
+}
+#endif
+
 const char* koi_get_str(String* s)
 {
     koi_last_err_code = KOI_NO_ERR;

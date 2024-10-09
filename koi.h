@@ -40,6 +40,12 @@ u32 koi_get_length(String*);
 u64 koi_get_length(String*);
 #endif
 
+#if defined(__i386__)
+u32 koi_get_size(String*);
+#elif defined(__x86_64__)
+u64 koi_get_size(String*);
+#endif
+
 const char* koi_get_str(String*);
 
 //

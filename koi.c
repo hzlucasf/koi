@@ -381,3 +381,47 @@ u64 koi_get_list_length(StringList* l)
     return l->arr_length;
 }
 #endif
+
+void koi_copy_string(String* s1, String* s2)
+{
+    koi_last_err_code = KOI_NO_ERR;
+
+    if (s1 == NULL || s2 == NULL)
+    {
+        koi_last_err_code = KOI_INVALID_ARGS_ERR;
+
+        return;
+    }
+
+    char* temp = malloc(s1->size);
+
+    if (temp == NULL)
+    {
+        koi_last_err_code = KOI_MEM_ALLOC_ERR;
+
+        return;
+    }
+
+#if defined(__i386__)
+    u32 i = 0;
+#elif defined(__x86_64__)
+    u64 i = 0;
+#endif  
+
+    for (; i < s1->length; i += 1)
+    {
+        temp[i] = s1->str[i];
+    }
+
+    temp[s1->length] = '\0';
+
+    free(s2->str);
+
+    s2->str = temp;
+
+    s2->length = s1->length;
+
+    s2->extra_characters = s1->extra_characters;
+
+    s2->size = s1->size;
+}

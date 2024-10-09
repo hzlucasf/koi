@@ -55,3 +55,5 @@ u32 koi_get_list_length(StringList*);
 #elif defined(__x86_64__)
 u64 koi_get_list_length(StringList*);
 #endif
+
+void koi_copy_string(String*, String*);

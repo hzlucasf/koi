@@ -52,7 +52,7 @@ const char* koi_get_str(String*);
 
 bool koi_contains(String*, char);
 
-void koi_copy_string(String*, String*);
+bool koi_copy_string(String*, String*);
 
 bool koi_equals(String*, String*);
 

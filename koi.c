@@ -215,7 +215,7 @@ bool koi_contains(String* s, char c)
     return false;
 }
 
-void koi_copy_string(String* s1, String* s2)
+bool koi_copy_string(String* s1, String* s2)
 {
     koi_last_err_code = KOI_NO_ERR;
 
@@ -223,7 +223,7 @@ void koi_copy_string(String* s1, String* s2)
     {
         koi_last_err_code = KOI_INVALID_ARGS_ERR;
 
-        return;
+        return false;
     }
 
     char* temp = malloc(s1->size);
@@ -232,7 +232,7 @@ void koi_copy_string(String* s1, String* s2)
     {
         koi_last_err_code = KOI_MEM_ALLOC_ERR;
 
-        return;
+        return false;
     }
 
 #if defined(__i386__)
@@ -257,6 +257,8 @@ void koi_copy_string(String* s1, String* s2)
     s2->extra_characters = s1->extra_characters;
 
     s2->size = s1->size;
+
+    return true;
 }
 
 bool koi_equals(String* s1, String* s2)

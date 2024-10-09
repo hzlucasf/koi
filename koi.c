@@ -536,3 +536,48 @@ bool koi_list_contains_string(StringList* l, String* s)
 
     return false;
 }
+
+bool koi_add_string(StringList* l, String* s)
+{
+    koi_last_err_code = KOI_NO_ERR;
+
+    if (l == NULL || s == NULL)
+    {
+        koi_last_err_code = KOI_INVALID_ARGS_ERR;
+
+        return false;
+    }
+
+    if (l->arr_length == l->size)
+    {
+        void* temp = realloc(l->arr, l->size * 2);
+
+        if (temp == NULL)
+        {
+            koi_last_err_code = KOI_MEM_ALLOC_ERR;
+
+            return false;
+        }
+
+        l->arr = temp;
+
+#if defined(__i386__)
+        u32 i = l->arr_length;
+#elif defined(__x86_64__)
+        u64 i = l->arr_length;
+#endif
+
+        for (; i < l->size * 2; i += 1)
+        {
+            l->arr[i].str = NULL;
+        }
+
+        l->size *= 2;
+    }
+
+    koi_copy_string(s, &l->arr[l->arr_length]);
+
+    l->arr_length += 1;
+
+    return true;
+}

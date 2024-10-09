@@ -83,3 +83,7 @@ u32 koi_get_list_length(StringList*);
 #elif defined(__x86_64__)
 u64 koi_get_list_length(StringList*);
 #endif
+
+//
+
+bool koi_list_contains_string(StringList*, String*);

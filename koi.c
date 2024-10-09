@@ -504,3 +504,33 @@ u64 koi_get_list_length(StringList* l)
     return l->arr_length;
 }
 #endif
+
+//
+
+bool koi_list_contains_string(StringList* l, String* s)
+{
+    koi_last_err_code = KOI_NO_ERR;
+
+    if (l == NULL || s == NULL)
+    {
+        koi_last_err_code = KOI_INVALID_ARGS_ERR;
+
+        return false;
+    }
+
+#if defined(__i386__)
+    u32 i = 0;
+#elif defined(__x86_64__)
+    u64 i = 0;
+#endif
+
+    for (; i < l->arr_length; i += 1)
+    {
+        if (koi_equals(&l->arr[i], s))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}

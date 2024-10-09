@@ -430,7 +430,7 @@ StringList* koi_new_string_list(void)
         return NULL;
     }
 
-    l->arr = malloc(sizeof(String) * 10);
+    l->arr = calloc(sizeof(String), 10);
 
     if (l->arr == NULL)
     {

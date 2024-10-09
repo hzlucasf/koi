@@ -3,7 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+//
+
 u8 koi_last_err_code = KOI_NO_ERR;
+
+// String
 
 typedef struct String
 {
@@ -27,6 +31,8 @@ typedef struct String
     u64 size;
 #endif
 } String;
+
+//
 
 String* koi_new_string(const char* str)
 {
@@ -103,19 +109,7 @@ void koi_delete_string(String* s)
     free(s);
 }
 
-const char* koi_get_str(String* s)
-{
-    koi_last_err_code = KOI_NO_ERR;
-
-    if (s == NULL)
-    {
-        koi_last_err_code = KOI_INVALID_ARGS_ERR;
-
-        return NULL;
-    }
-
-    return s->str;
-}
+//
 
 #if defined(__i386__)
 u32 koi_get_length(String* s)
@@ -147,8 +141,7 @@ u64 koi_get_length(String* s)
 }
 #endif
 
-#if defined(__i386__)
-u32 koi_index_of(String* s, char c)
+const char* koi_get_str(String* s)
 {
     koi_last_err_code = KOI_NO_ERR;
 
@@ -156,46 +149,13 @@ u32 koi_index_of(String* s, char c)
     {
         koi_last_err_code = KOI_INVALID_ARGS_ERR;
 
-        return 0;
+        return NULL;
     }
 
-    for (u32 i = 0; i < s->length; i += 1)
-    {
-        if (s->str[i] == c)
-        {
-            return i;
-        }
-    }
-
-    koi_last_err_code = KOI_NOT_FOUND_ERR;
-
-    return 0;
+    return s->str;
 }
-#elif defined(__x86_64__)
-u64 koi_index_of(String* s, char c)
-{
-    koi_last_err_code = KOI_NO_ERR;
 
-    if (s == NULL)
-    {
-        koi_last_err_code = KOI_INVALID_ARGS_ERR;
-
-        return 0;
-    }
-
-    for (u64 i = 0; i < s->length; i += 1)
-    {
-        if (s->str[i] == c)
-        {
-            return i;
-        }
-    }
-
-    koi_last_err_code = KOI_NOT_FOUND_ERR;
-
-    return 0;
-}
-#endif
+//
 
 bool koi_contains(String* s, char c)
 {
@@ -223,58 +183,6 @@ bool koi_contains(String* s, char c)
     }
 
     return false;
-}
-
-void koi_to_upper(String* s)
-{
-    koi_last_err_code = KOI_NO_ERR;
-
-    if (s == NULL)
-    {
-        koi_last_err_code = KOI_INVALID_ARGS_ERR;
-
-        return;
-    }
-
-#if defined(__i386__)
-    u32 i = 0;
-#elif defined(__x86_64__)
-    u64 i = 0;
-#endif
-
-    for (; i < s->length; i += 1)
-    {
-        if (s->str[i] >= 'a' && s->str[i] < 'z')
-        {
-            s->str[i] -= 32;
-        }
-    }
-}
-
-void koi_to_lower(String* s)
-{
-    koi_last_err_code = KOI_NO_ERR;
-
-    if (s == NULL)
-    {
-        koi_last_err_code = KOI_INVALID_ARGS_ERR;
-
-        return;
-    }
-
-#if defined(__i386__)
-    u32 i = 0;
-#elif defined(__x86_64__)
-    u64 i = 0;
-#endif
-
-    for (; i < s->length; i += 1)
-    {
-        if (s->str[i] >= 'A' && s->str[i] < 'Z')
-        {
-            s->str[i] += 32;
-        }
-    }
 }
 
 void koi_copy_string(String* s1, String* s2)
@@ -354,6 +262,110 @@ bool koi_equals(String* s1, String* s2)
     return true;
 }
 
+#if defined(__i386__)
+u32 koi_index_of(String* s, char c)
+{
+    koi_last_err_code = KOI_NO_ERR;
+
+    if (s == NULL)
+    {
+        koi_last_err_code = KOI_INVALID_ARGS_ERR;
+
+        return 0;
+    }
+
+    for (u32 i = 0; i < s->length; i += 1)
+    {
+        if (s->str[i] == c)
+        {
+            return i;
+        }
+    }
+
+    koi_last_err_code = KOI_NOT_FOUND_ERR;
+
+    return 0;
+}
+#elif defined(__x86_64__)
+u64 koi_index_of(String* s, char c)
+{
+    koi_last_err_code = KOI_NO_ERR;
+
+    if (s == NULL)
+    {
+        koi_last_err_code = KOI_INVALID_ARGS_ERR;
+
+        return 0;
+    }
+
+    for (u64 i = 0; i < s->length; i += 1)
+    {
+        if (s->str[i] == c)
+        {
+            return i;
+        }
+    }
+
+    koi_last_err_code = KOI_NOT_FOUND_ERR;
+
+    return 0;
+}
+#endif
+
+void koi_to_lower(String* s)
+{
+    koi_last_err_code = KOI_NO_ERR;
+
+    if (s == NULL)
+    {
+        koi_last_err_code = KOI_INVALID_ARGS_ERR;
+
+        return;
+    }
+
+#if defined(__i386__)
+    u32 i = 0;
+#elif defined(__x86_64__)
+    u64 i = 0;
+#endif
+
+    for (; i < s->length; i += 1)
+    {
+        if (s->str[i] >= 'A' && s->str[i] < 'Z')
+        {
+            s->str[i] += 32;
+        }
+    }
+}
+
+void koi_to_upper(String* s)
+{
+    koi_last_err_code = KOI_NO_ERR;
+
+    if (s == NULL)
+    {
+        koi_last_err_code = KOI_INVALID_ARGS_ERR;
+
+        return;
+    }
+
+#if defined(__i386__)
+    u32 i = 0;
+#elif defined(__x86_64__)
+    u64 i = 0;
+#endif
+
+    for (; i < s->length; i += 1)
+    {
+        if (s->str[i] >= 'a' && s->str[i] < 'z')
+        {
+            s->str[i] -= 32;
+        }
+    }
+}
+
+// StringList
+
 typedef struct StringList
 {
     String* arr;
@@ -370,6 +382,8 @@ typedef struct StringList
     u64 size;
 #endif
 } StringList;
+
+//
 
 StringList* koi_new_string_list(void)
 {
@@ -428,6 +442,8 @@ void koi_delete_string_list(StringList* l)
 
     free(l);
 }
+
+//
 
 #if defined(__i386__)
 u32 koi_get_list_length(StringList* l)

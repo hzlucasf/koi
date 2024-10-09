@@ -425,3 +425,36 @@ void koi_copy_string(String* s1, String* s2)
 
     s2->size = s1->size;
 }
+
+bool koi_equals(String* s1, String* s2)
+{
+    koi_last_err_code = KOI_NO_ERR;
+
+    if (s1 == NULL || s2 == NULL)
+    {
+        koi_last_err_code = KOI_INVALID_ARGS_ERR;
+
+        return false;
+    }
+
+    if (s1->length != s2->length)
+    {
+        return false;
+    }
+
+#if defined(__i386__)
+    u32 i = 0;
+#elif defined(__x86_64__)
+    u64 i = 0;
+#endif
+
+    for (; i < s1->length; i += 1)
+    {
+        if (s1->str[i] != s2->str[i])
+        {
+            return false;
+        }
+    }
+
+    return true;
+}

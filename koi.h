@@ -57,3 +57,5 @@ u64 koi_get_list_length(StringList*);
 #endif
 
 void koi_copy_string(String*, String*);
+
+bool koi_equals(String*, String*);

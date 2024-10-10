@@ -13,21 +13,21 @@ typedef struct String
 {
     char* str;
 
-#if defined(__i386__)
+#if defined(__i386__) || defined(_WIN32)
     u32 length;
-#elif defined(__x86_64__)
+#elif defined(__x86_64__) || defined(_WIN64)
     u64 length;
 #endif
 
-#if defined(__i386__)
+#if defined(__i386__) || defined(_WIN32)
     u32 extra_characters;
-#elif defined(__x86_64__)
+#elif defined(__x86_64__) || defined(_WIN64)
     u64 extra_characters;
 #endif
 
-#if defined(__i386__)
+#if defined(__i386__) || defined(_WIN32)
     u32 size;
-#elif defined(__x86_64__)
+#elif defined(__x86_64__) || defined(_WIN64)
     u64 size;
 #endif
 } String;
@@ -54,7 +54,11 @@ String* koi_new_string(const char* str)
         return NULL;
     }
 
+#if defined(_WIN32) || defined(_WIN64)
+    s->str = _strdup(str);
+#else
     s->str = strdup(str);
+#endif
 
     if (s->str == NULL)
     {
@@ -67,9 +71,9 @@ String* koi_new_string(const char* str)
 
     s->length = strlen(str);
 
-#if defined(__i386__)
+#if defined(__i386__) || defined(_WIN32)
     s->extra_characters = 4;
-#elif defined(__x86_64__)
+#elif defined(__x86_64__) || defined(_WIN64)
     s->extra_characters = 8;
 #endif
 
@@ -111,7 +115,7 @@ void koi_delete_string(String* s)
 
 //
 
-#if defined(__i386__)
+#if defined(__i386__) || defined(_WIN32)
 u32 koi_get_length(String* s)
 {
     koi_last_err_code = KOI_NO_ERR;
@@ -125,7 +129,7 @@ u32 koi_get_length(String* s)
 
     return s->length;
 }
-#elif defined(__x86_64__)
+#elif defined(__x86_64__) || defined(_WIN64)
 u64 koi_get_length(String* s)
 {
     koi_last_err_code = KOI_NO_ERR;
@@ -141,7 +145,7 @@ u64 koi_get_length(String* s)
 }
 #endif
 
-#if defined(__i386__)
+#if defined(__i386__) || defined(_WIN32)
 u32 koi_get_size(String* s)
 {
     koi_last_err_code = KOI_NO_ERR;
@@ -155,7 +159,7 @@ u32 koi_get_size(String* s)
 
     return s->size;
 }
-#elif defined(__x86_64__)
+#elif defined(__x86_64__) || defined(_WIN64)
 u64 koi_get_size(String* s)
 {
     koi_last_err_code = KOI_NO_ERR;
@@ -198,9 +202,9 @@ bool koi_contains(String* s, char c)
         return false;
     }
 
-#if defined(__i386__)
+#if defined(__i386__) || defined(_WIN32)
     u32 i = 0;
-#elif defined(__x86_64__)
+#elif defined(__x86_64__) || defined(_WIN64)
     u64 i = 0;
 #endif
 
@@ -235,9 +239,9 @@ bool koi_copy_string(String* s1, String* s2)
         return false;
     }
 
-#if defined(__i386__)
+#if defined(__i386__) || defined(_WIN32)
     u32 i = 0;
-#elif defined(__x86_64__)
+#elif defined(__x86_64__) || defined(_WIN64)
     u64 i = 0;
 #endif  
 
@@ -277,9 +281,9 @@ bool koi_equals(String* s1, String* s2)
         return false;
     }
 
-#if defined(__i386__)
+#if defined(__i386__) || defined(_WIN32)
     u32 i = 0;
-#elif defined(__x86_64__)
+#elif defined(__x86_64__) || defined(_WIN64)
     u64 i = 0;
 #endif
 
@@ -294,7 +298,7 @@ bool koi_equals(String* s1, String* s2)
     return true;
 }
 
-#if defined(__i386__)
+#if defined(__i386__) || defined(_WIN32)
 u32 koi_index_of(String* s, char c)
 {
     koi_last_err_code = KOI_NO_ERR;
@@ -318,7 +322,7 @@ u32 koi_index_of(String* s, char c)
 
     return 0;
 }
-#elif defined(__x86_64__)
+#elif defined(__x86_64__) || defined(_WIN64)
 u64 koi_index_of(String* s, char c)
 {
     koi_last_err_code = KOI_NO_ERR;
@@ -355,9 +359,9 @@ void koi_to_lower(String* s)
         return;
     }
 
-#if defined(__i386__)
+#if defined(__i386__) || defined(_WIN32)
     u32 i = 0;
-#elif defined(__x86_64__)
+#elif defined(__x86_64__) || defined(_WIN64)
     u64 i = 0;
 #endif
 
@@ -381,9 +385,9 @@ void koi_to_upper(String* s)
         return;
     }
 
-#if defined(__i386__)
+#if defined(__i386__) || defined(_WIN32)
     u32 i = 0;
-#elif defined(__x86_64__)
+#elif defined(__x86_64__) || defined(_WIN64)
     u64 i = 0;
 #endif
 
@@ -402,15 +406,15 @@ typedef struct StringList
 {
     String* arr;
 
-#if defined(__i386__)
+#if defined(__i386__) || defined(_WIN32)
     u32 arr_length;
-#elif defined(__x86_64__)
+#elif defined(__x86_64__) || defined(_WIN64)
     u64 arr_length;
 #endif
 
-#if defined(__i386__)
+#if defined(__i386__) || defined(_WIN32)
     u32 size;
-#elif defined(__x86_64__)
+#elif defined(__x86_64__) || defined(_WIN64)
     u64 size;
 #endif
 } StringList;
@@ -459,9 +463,9 @@ void koi_delete_string_list(StringList* l)
         return;
     }
 
-#if defined(__i386__)
+#if defined(__i386__) || defined(_WIN32)
     u32 i = 0;
-#elif defined(__x86_64__)
+#elif defined(__x86_64__) || defined(_WIN64)
     u64 i = 0;
 #endif
 
@@ -477,7 +481,7 @@ void koi_delete_string_list(StringList* l)
 
 //
 
-#if defined(__i386__)
+#if defined(__i386__) || defined(_WIN32)
 u32 koi_get_list_length(StringList* l)
 {
     koi_last_err_code = KOI_NO_ERR;
@@ -491,7 +495,7 @@ u32 koi_get_list_length(StringList* l)
 
     return l->arr_length;
 }
-#elif defined(__x86_64__)
+#elif defined(__x86_64__) || defined(_WIN64)
 u64 koi_get_list_length(StringList* l)
 {
     koi_last_err_code = KOI_NO_ERR;
@@ -520,9 +524,9 @@ bool koi_list_contains_string(StringList* l, String* s)
         return false;
     }
 
-#if defined(__i386__)
+#if defined(__i386__) || defined(_WIN32)
     u32 i = 0;
-#elif defined(__x86_64__)
+#elif defined(__x86_64__) || defined(_WIN64)
     u64 i = 0;
 #endif
 
@@ -561,9 +565,9 @@ bool koi_add_string(StringList* l, String* s)
 
         l->arr = temp;
 
-#if defined(__i386__)
+#if defined(__i386__) || defined(_WIN32)
         u32 i = l->arr_length;
-#elif defined(__x86_64__)
+#elif defined(__x86_64__) || defined(_WIN64)
         u64 i = l->arr_length;
 #endif
 
@@ -593,9 +597,9 @@ void koi_for_each(StringList* l, void (*f) (String*))
         return;
     }
 
-#if defined(__i386__)
+#if defined(__i386__) || defined(_WIN32)
     u32 i = 0;
-#elif defined(__x86_64__)
+#elif defined(__x86_64__) || defined(_WIN64)
     u64 i = 0;
 #endif
 
@@ -630,9 +634,9 @@ StringList* koi_filter(StringList* l, bool (*f) (String*))
         return NULL;
     }
 
-#if defined(__i386__)
+#if defined(__i386__) || defined(_WIN32)
     u32 i = 0;
-#elif defined(__x86_64__)
+#elif defined(__x86_64__) || defined(_WIN64)
     u64 i = 0;
 #endif
 

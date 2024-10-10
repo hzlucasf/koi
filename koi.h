@@ -7,9 +7,9 @@
 
 typedef uint8_t u8;
 
-#if defined(__i386__)
+#if defined(__i386__) || defined(_WIN32)
 typedef uint32_t u32;
-#elif defined(__x86_64__)
+#elif defined(__x86_64__) || defined(_WIN64)
 typedef uint64_t u64;
 #endif
 
@@ -34,15 +34,15 @@ void koi_delete_string(String*);
 
 //
 
-#if defined(__i386__)
+#if defined(__i386__) || defined(_WIN32)
 u32 koi_get_length(String*);
-#elif defined(__x86_64__)
+#elif defined(__x86_64__) || defined(_WIN64)
 u64 koi_get_length(String*);
 #endif
 
-#if defined(__i386__)
+#if defined(__i386__) || defined(_WIN32)
 u32 koi_get_size(String*);
-#elif defined(__x86_64__)
+#elif defined(__x86_64__) || defined(_WIN64)
 u64 koi_get_size(String*);
 #endif
 
@@ -56,9 +56,9 @@ bool koi_copy_string(String*, String*);
 
 bool koi_equals(String*, String*);
 
-#if defined(__i386__)
+#if defined(__i386__) || defined(_WIN32)
 u32 koi_index_of(String*, char);
-#elif defined(__x86_64__)
+#elif defined(__x86_64__) || defined(_WIN64)
 u64 koi_index_of(String*, char);
 #endif
 
@@ -78,9 +78,9 @@ void koi_delete_string_list(StringList*);
 
 //
 
-#if defined(__i386__)
+#if defined(__i386__) || defined(_WIN32)
 u32 koi_get_list_length(StringList*);
-#elif defined(__x86_64__)
+#elif defined(__x86_64__) || defined(_WIN64)
 u64 koi_get_list_length(StringList*);
 #endif
 

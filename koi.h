@@ -91,3 +91,5 @@ bool koi_list_contains_string(StringList*, String*);
 bool koi_add_string(StringList*, String*);
 
 void koi_for_each(StringList*, void (*) (String*));
+
+StringList* koi_filter(StringList*, bool (*) (String*));

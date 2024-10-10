@@ -604,3 +604,45 @@ void koi_for_each(StringList* l, void (*f) (String*))
         f(&l->arr[i]);
     }
 }
+
+StringList* koi_filter(StringList* l, bool (*f) (String*))
+{
+    koi_last_err_code = KOI_NO_ERR;
+
+    if (l == NULL || f == NULL)
+    {
+        koi_last_err_code = KOI_INVALID_ARGS_ERR;
+
+        return NULL;
+    }
+
+    if (l->arr_length == 0 || l->arr_length == 1)
+    {
+        return NULL;
+    }
+
+    StringList* result = koi_new_string_list();
+
+    if (result == NULL)
+    {
+        // koi_last_err_code = KOI_MEM_ALLOC_ERR;
+
+        return NULL;
+    }
+
+#if defined(__i386__)
+    u32 i = 0;
+#elif defined(__x86_64__)
+    u64 i = 0;
+#endif
+
+    for (; i < l->arr_length; i += 1)
+    {
+        if (f(&l->arr[i]))
+        {
+            koi_add_string(result, &l->arr[i]);
+        }
+    }
+
+    return result;
+}

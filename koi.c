@@ -644,5 +644,12 @@ StringList* koi_filter(StringList* l, bool (*f) (String*))
         }
     }
 
+    if (result->arr_length == 0)
+    {
+        koi_delete_string_list(result);
+
+        return NULL;
+    }
+
     return result;
 }
